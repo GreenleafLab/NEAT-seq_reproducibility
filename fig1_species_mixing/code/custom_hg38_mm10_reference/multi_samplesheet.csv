@@ -1,0 +1,3 @@
+fastqs,sample,library_type
+/oak/stanford/groups/wjg/amyfchen/10X_data/multiome_analysis_Dec2020/multi_scATAC_Dec2020/outs/fastq_path,multi_scATAC_Dec2020,Chromatin Accessibility
+/oak/stanford/groups/wjg/amyfchen/10X_data/multiome_analysis_Dec2020/multi_scRNA_Dec2020/outs/fastq_path,multi_scRNA_Dec2020,Gene Expression

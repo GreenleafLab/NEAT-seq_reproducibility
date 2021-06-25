@@ -1,0 +1,70 @@
+# Prepare a hg38_mm10 chimeric genome for barnyard analysis
+# For reference see 10x scripts: https://support.10xgenomics.com/single-cell-multiome-atac-gex/software/release-notes/references
+
+
+rule all:
+    input: 
+        "04_data/custom_multiome_reference/hg38_mm10.fasta",
+        "04_data/custom_multiome_reference/genes.gtf",
+        "04_data/custom_multiome_reference/JASPAR2018_CORE_vertebrates_non-redundant_pfms_jaspar.txt",
+        "04_data/custom_multiome_reference/combined_blacklist.bed",
+        "04_data/custom_multiome_reference/hg38_mm10/"
+    
+localrules: fasta, gtf, pfm, blacklist
+
+rule fasta:
+    input:
+        hg38 = "01_raw_data/10x_multiome_reference/refdata-cellranger-arc-GRCh38-2020-A/fasta/genome.fa",
+        mm10 = "01_raw_data/10x_multiome_reference/refdata-cellranger-arc-mm10-2020-A/fasta/genome.fa"
+    output: "04_data/custom_multiome_reference/hg38_mm10.fasta"
+    shell: "cat <(sed 's/^>/>hg38./' {input.hg38}) <(sed 's/^>/>mm10./' {input.mm10}) > {output}"
+
+rule gtf:
+    input:
+        hg38 = "01_raw_data/10x_multiome_reference/refdata-cellranger-arc-GRCh38-2020-A/genes/genes.gtf.gz",
+        mm10 = "01_raw_data/10x_multiome_reference/refdata-cellranger-arc-mm10-2020-A/genes/genes.gtf.gz"
+    output: "04_data/custom_multiome_reference/genes.gtf"
+    shell: "cat <(zcat {input.hg38} | sed 's/^/hg38./') <(zcat {input.mm10} | sed 's/^/mm10./') | "
+           " grep -Ev '(hg38|mm10).##' > {output}"
+
+
+awk_rename_motifs = """\
+{
+    if ( substr($1, 1, 1) == ">" ) {
+        print ">" $2 "_" substr($1,2)
+    } else {
+        print
+    }
+}
+"""
+rule pfm:
+    output: "04_data/custom_multiome_reference/JASPAR2018_CORE_vertebrates_non-redundant_pfms_jaspar.txt"
+    params:
+        url = "http://jaspar2018.genereg.net/download/CORE/JASPAR2018_CORE_vertebrates_non-redundant_pfms_jaspar.txt"
+    shell: "curl -sS {params.url} | awk '{awk_rename_motifs}' > {output}"
+
+rule blacklist:
+    output: "04_data/custom_multiome_reference/combined_blacklist.bed"
+    params:
+        url_hg38="https://github.com/Boyle-Lab/Blacklist/raw/master/lists/hg38-blacklist.v2.bed.gz",
+        url_mm10="https://github.com/Boyle-Lab/Blacklist/raw/master/lists/mm10-blacklist.v2.bed.gz"
+    shell: "cat "
+           " <(curl -sL {params.url_hg38} | zcat | sed 's/^/hg38./') "
+           " <(curl -sL {params.url_mm10} | zcat | sed 's/^/mm10./') "
+           " > {output}"
+
+
+rule mkref:
+    input:
+        "04_data/custom_multiome_reference/hg38_mm10.fasta",
+        "04_data/custom_multiome_reference/genes.gtf",
+        "04_data/custom_multiome_reference/JASPAR2018_CORE_vertebrates_non-redundant_pfms_jaspar.txt"
+    params:
+        cellranger = "03_code/cellranger-arc-1.0.1/cellranger-arc",
+        config = srcdir("hg38_mm10.config"),
+        cluster_memory = "68GB",
+        cluster_time="24:00:00"
+    threads: 6
+    output: directory("04_data/custom_multiome_reference/hg38_mm10/")
+    shell: "cd 04_data/custom_multiome_reference/; "
+           "../../{params.cellranger} mkref --config={params.config} --nthreads={threads} --memgb=48"
