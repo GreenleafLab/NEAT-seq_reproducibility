@@ -113,7 +113,7 @@ knn <- get_knn(mpal@metadata$matSVD, lsi_coords, k=10, ef=200)
 knn_data <- tibble(
   cell_id = rownames(lsi_coords),
   UMAP1 = mpal$UMAP1[knn$idx[,1]],
-  UMAP2 = mpal$UMAP2[knn$idx[,2]],
+  UMAP2 = mpal$UMAP2[knn$idx[,1]],
   cell_type = transfer_labels(knn, mpal$BioClassification),
 )
 

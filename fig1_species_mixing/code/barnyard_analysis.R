@@ -15,9 +15,7 @@ suppressPackageStartupMessages({
 source("fig1_species_mixing/code/species_mixing_utils.R")
 source("code_utils/fragmentsS4.R")
 source("code_utils/plotting_utils.R")
-#source("03_code/utils.R")
-#source("03_code/plotting_utils.R")
-#source("03_code/fragmentsS4.R")
+
 species_colors_full <- c("mouse" = "#e41a1c","human" = "#377eb8", "mix"="#984ea3", "low yield"="#cccccc", "hash mix"="#4daf4a", "hash empty"="#ff7f00")
 species_colors <- species_colors_full[c("mouse", "human")]
 
