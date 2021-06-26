@@ -318,3 +318,26 @@ knn_pseudobulk <- function(pca, k=100, starter_cells=500, max_overlap=0.8, hnsw_
 
     return(t(groups_mat[,keep]))
 }
+
+#' Load a gtf file into a GRanges object using data.table::fread.
+#' I'm sure there's other ways of doing this, but this is simple and works for me.
+#' @param path File path of gtf
+#' @param attributes Attribute names to be parsed out into separate metadata columns.
+#'    These show up in the last column of the gtf as attribute_name "value";, e.g. transcript_id "ENST00000619216.1";
+#' @param keep_attribute_column Boolean for whether to preserve the text list of attributes as a metadata column.
+#'    (Useful if additional parsing of attributes is needed)
+#' @param ... Additional arguments passed to fread. Of particular use is skip, for skipping commented lines at the start.
+#'    Set it to the text at the start of the first line to read. skip="chr" is often appropriate
+#' @return GRanges object with one entry per line of the input GTF.
+read_gtf <- function(path, attributes, keep_attribute_colum=FALSE, ...) {
+  gtf_colnames <- c("seqname", "source", "feature", "start", "end", "score", "strand", "frame", "attributes")
+
+  ret <- fread(path, col.names=gtf_colnames, ...)
+  for (a in attributes) {
+    ret[[a]] <- str_match(ret[["attributes"]], sprintf('%s "([^"]*)"', a))[,2]
+  }
+  ret <- makeGRangesFromDataFrame(ret, keep.extra.columns = TRUE)
+  if(!keep_attribute_colum)
+    ret[["attributes"]] <- NULL
+  return(ret)
+}
