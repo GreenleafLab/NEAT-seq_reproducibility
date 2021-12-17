@@ -5,6 +5,9 @@ Code to reproduce results from the NEAT-seq manuscript. (Link will be added upon
 The exact R package versions used for running analysis code are saved in `renv.lock`. These can be 
 installed into a reproducible R environment using the `renv` package's `renv::restore()` function.
 
+Input data from GEO should be downloaded before running any analysis scripts. This can be done
+with the script `code_utils/download_data.py` and will download about 1.5GB of data
+
 ### Code layout
 Each main text figure and the corresponding supplemental figure is in its own directory. Details on the code + data files are provided in the folders for each figure. All scripts should be run from the project root, rather than inside any of the figure folders.
 
@@ -13,7 +16,12 @@ Most of the code files run in <5 minutes, but can consume substantial RAM. It is
 
 **Library Installation**
 - R: `install.packages("renv"); renv::restore()`
-- python: `pip install pysam`
+- python: `pip install pysam snakemake`
+
+**Data download**
+```shell
+python code_utils/download_data.py
+```
 
 **Figure 1**
 ```shell
@@ -35,9 +43,11 @@ Rscript fig3_correlation_analysis/code/trackplots.R
 Rscript fig3_correlation_analysis/code/heatmaps.R
 ```
 
+**Revisions**
+```shell
+snakemake -s revisions/code/K562_bulk_ATAC/K562_download.snake
+Rscript revisions/code/bulk_correlation.R
+```
 
 ## To-do checklist upon GEO publication
-
-[ ] Write script/function to download files from GEO prior to loading  
-[ ] Update code everywhere that loads GEO data  
 [ ] Add instructions for accessing ATAC-seq bam files from SRA 
