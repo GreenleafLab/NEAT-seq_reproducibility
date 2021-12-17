@@ -11,7 +11,7 @@ addArchRThreads(2)
 source("code_utils/projection_utils.R")
 source("code_utils/fragmentsS4.R")
 
-input_data_dir <- "/oak/stanford/groups/wjg/amyfchen/GEO_submission_June2021"
+input_data_dir <- "geo_download"
 mapping_output <- "fig2_CD4_Tcells/outputs/hematopoiesis_projection.tsv"
 dir.create(dirname(mapping_output), showWarnings = FALSE)
 
@@ -39,8 +39,8 @@ projectLSI <- function(mat, LSI) {
 proj <- readRDS("fig2_CD4_Tcells/data/ArchR_HTOsinglets.rds")
 
 fragment_files <- c(
-  "lane1"=file.path(input_data_dir, "CD4_lane1/lane1_atac_fragments.tsv.gz"),
-  "lane2"=file.path(input_data_dir, "CD4_lane2/lane2_atac_fragments.tsv.gz")
+  "lane1"=file.path(input_data_dir, "GSM5396332_lane1_atac_fragments.tsv.gz"),
+  "lane2"=file.path(input_data_dir, "GSM5396336_lane2_atac_fragments.tsv.gz")
 )
 
 # Takes 1.5 minutes to load fragments + insertions; 

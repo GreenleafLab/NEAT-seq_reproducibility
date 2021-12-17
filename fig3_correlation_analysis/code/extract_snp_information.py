@@ -8,6 +8,8 @@ snp_base = 75518526 - 1
 exclude_bam_flag = 1804
 include_bam_flag = 2
 
+# Note: The SRA data is not yet public at this time, but once it is this section
+# can be updated to include the bam downloads
 input_data_path = "/oak/stanford/groups/wjg/amyfchen/GEO_submission_June2021"
 output_path = "fig3_correlation_analysis/outputs/"
 os.makedirs(output_path, exist_ok=True)

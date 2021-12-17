@@ -7,15 +7,15 @@ suppressPackageStartupMessages({
 
 source("fig3_correlation_analysis/code/correlation_utils.R")
 
-input_data_path <- "/oak/stanford/groups/wjg/amyfchen/GEO_submission_June2021"
+input_data_path <- "geo_downloads"
 output_path = "fig3_correlation_analysis/outputs/"
 
 proj <- readRDS("fig2_CD4_Tcells/data/ArchR_HTOsinglets_CD4only_25XADT.rds")
 proj_all <- readRDS("fig2_CD4_Tcells/data/ArchR_HTOsinglets_CD4only.rds")
 
 adt <- bind_rows(
-    lane1 = read_csv(file.path(input_data_path, "CD4_lane1/ADT_counts_lane1.csv")),
-    lane2 = read_csv(file.path(input_data_path, "CD4_lane2/ADT_counts_lane2.csv")),
+    lane1 = read_csv(file.path(input_data_path, "GSM5396330_ADT_counts_lane1.csv.gz")),
+    lane2 = read_csv(file.path(input_data_path, "GSM5396334_ADT_counts_lane2.csv.gz")),
     .id = "lane"
 ) %>%
   mutate(cell_id = str_c(lane, "#", cell, "-1")) %>%

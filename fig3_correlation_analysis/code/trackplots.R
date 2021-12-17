@@ -16,8 +16,7 @@ suppressPackageStartupMessages({
    library(GenomicRanges)
 })
 
-input_data_path_matrices <- "/oak/stanford/groups/wjg/bparks/TF_ADTs_Amy/GEO_upload/CD4_Tcell/"
-input_data_path <- "/oak/stanford/groups/wjg/amyfchen/GEO_submission_June2021"
+input_data_path <- "geo_download"
 output_path <- "fig3_correlation_analysis/outputs"
 
 source("fig3_correlation_analysis/code/correlation_utils.R")
@@ -43,8 +42,8 @@ refGenes <- read_gtf("http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/gen
 
 
 
-rna_counts <- readRDS(file.path(input_data_path_matrices, "CD4_RNA_counts.rds"))
-peak_counts <- readRDS(file.path(input_data_path_matrices, "CD4_Peak_matrix.rds"))
+rna_counts <- readRDS(file.path(input_data_path, "GSM5396333_CD4_RNA_counts.rds"))
+peak_counts <- readRDS(file.path(input_data_path, "GSM5396336_CD4_Peak_matrix.rds"))
 
 rna <- rna_counts %>%
   t() %>% {log10(10000 * . / rowMeans(.) + 1)} %>% as("dgCMatrix") %>%
@@ -54,8 +53,8 @@ peaks <- peak_counts / proj_all$ReadsInTSS
 rm(rna_counts, peak_counts)
 
 adt <- bind_rows(
-    lane1 = read_csv(file.path(input_data_path, "CD4_lane1/ADT_counts_lane1.csv")),
-    lane2 = read_csv(file.path(input_data_path, "CD4_lane2/ADT_counts_lane2.csv")),
+    lane1 = read_csv(file.path(input_data_path, "GSM5396330_ADT_counts_lane1.csv.gz")),
+    lane2 = read_csv(file.path(input_data_path, "GSM5396334_ADT_counts_lane2.csv.gz")),
     .id = "lane"
 ) %>%
   mutate(cell_id = str_c(lane, "#", cell, "-1")) %>%

@@ -5,3 +5,8 @@
 fig1_species_mixing/outputs
 fig2_CD4_Tcells/outputs
 fig3_correlation_analysis/outputs
+revisions/outputs
+geo_download
+geo_file_mapping.csv
+.slurm-logs
+.snakemake

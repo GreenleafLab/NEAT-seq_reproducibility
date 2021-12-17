@@ -19,7 +19,7 @@ source("code_utils/plotting_utils.R")
 species_colors_full <- c("mouse" = "#e41a1c","human" = "#377eb8", "mix"="#984ea3", "low yield"="#cccccc", "hash mix"="#4daf4a", "hash empty"="#ff7f00")
 species_colors <- species_colors_full[c("mouse", "human")]
 
-input_data_path <- "/oak/stanford/groups/wjg/amyfchen/GEO_submission_June2021/barnyard"
+input_data_path <- "geo_download"
 
 output_path <- "fig1_species_mixing/outputs/cell_calls.tsv"
 plots_output <- "fig1_species_mixing/outputs/plots.pdf"
@@ -51,7 +51,7 @@ get_purity_data <- function(hg38_counts, mm10_counts, cell_ids, hg38_purity, mm1
 }
 
 #### RNA Calls ####
-rna_mix <- read_10x_gene_h5(file.path(input_data_path, "barnyard_raw_feature_bc_matrix.h5"))
+rna_mix <- read_10x_gene_h5(file.path(input_data_path, "GSM5396329_barnyard_raw_feature_bc_matrix.h5"))
 rna_mix_purity <- get_purity_data(
   hg38_counts = Matrix::colSums(rna_mix[str_detect(rownames(rna_mix), "^ENSG"),]),
   mm10_counts = Matrix::colSums(rna_mix[str_detect(rownames(rna_mix), "^ENSMUSG"),]),
@@ -86,7 +86,7 @@ rna_calls <- tibble(
 
 
 #### ATAC Calls ####
-fragments_mix_raw <- fread(file.path(input_data_path, "barnyard_atac_fragments.tsv.gz"), 
+fragments_mix_raw <- fread(file.path(input_data_path, "GSM5396328_barnyard_atac_fragments.tsv.gz"), 
                        col.names=c("chr", "start", "end", "barcode", "duplicates"),
                        stringsAsFactors = TRUE)
 fragments_granges_raw <- makeGRangesFromDataFrame(fragments_mix_raw)

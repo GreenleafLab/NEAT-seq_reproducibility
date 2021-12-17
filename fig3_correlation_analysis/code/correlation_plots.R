@@ -5,7 +5,7 @@ suppressPackageStartupMessages({
   library(ggrastr)
 })
 
-input_data_path <- "/oak/stanford/groups/wjg/amyfchen/GEO_submission_June2021"
+input_data_path <- "geo_download"
 output_dir <- "fig3_correlation_analysis/outputs"
 
 options(ggrastr.default.dpi=600)
@@ -19,8 +19,8 @@ tf_ensg_ids <- c(
   "Helios" = "ENSG00000030419"
 )
 
-peak_corr <- read_csv(file.path(input_data_path, "correlations/corr_peak_adt.csv.gz"))
-rna_corr <- read_csv(file.path(input_data_path, "correlations/corr_gene_adt.csv.gz"))
+peak_corr <- read_csv(file.path(input_data_path, "correlations/GSM5396330_corr_peak_adt.csv.gz"))
+rna_corr <- read_csv(file.path(input_data_path, "correlations/GSM5396330_corr_gene_adt.csv.gz"))
 
 gene_labels <- list(
   "RORgT" = c("RORA", "ABCB1", "CCR6", "MAP3K4", "RBMS1", "KIF5C", "PTPN13", "RUNX2", "RORC"),

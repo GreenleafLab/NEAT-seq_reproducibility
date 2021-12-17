@@ -15,8 +15,7 @@ source("fig3_correlation_analysis/code/correlation_utils.R")
 Rcpp::sourceCpp("fig3_correlation_analysis/code/rcpp_utils.cc")
 
 
-input_data_path_matrices <- "/oak/stanford/groups/wjg/bparks/TF_ADTs_Amy/GEO_upload/CD4_Tcell/"
-input_data_path <- "/oak/stanford/groups/wjg/amyfchen/GEO_submission_June2021"
+input_data_path <- "geo_download"
 
 output_path <- "fig3_correlation_analysis/outputs/heatmap_plot.pdf"
 
@@ -30,15 +29,15 @@ proj <- readRDS("fig2_CD4_Tcells/data/ArchR_HTOsinglets_CD4only_25XADT.rds")
 proj_all <- readRDS("fig2_CD4_Tcells/data/ArchR_HTOsinglets_CD4only.rds")
 
 gene_names <- read_tsv(
-    file.path(input_data_path, "CD4_lane1/filtered_feature_bc_matrix/lane1_features.tsv.gz"),
+    file.path(input_data_path, "GSM5396333_lane1_features.tsv.gz"),
     col_names=c("gene_id", "gene_name", "feature_type", "chr", "start", "end"),
     col_types="ccccii"
   ) %>%
   filter(feature_type == "Gene Expression") %>%
   pull(gene_name, name=gene_id)
 
-rna_counts <- readRDS(file.path(input_data_path_matrices, "CD4_RNA_counts.rds"))
-peak_counts <- readRDS(file.path(input_data_path_matrices, "CD4_Peak_matrix.rds"))
+rna_counts <- readRDS(file.path(input_data_path, "GSM5396333_CD4_RNA_counts.rds"))
+peak_counts <- readRDS(file.path(input_data_path, "GSM5396336_CD4_Peak_matrix.rds"))
 
 rna <- rna_counts %>%
   t() %>% {log10(10000 * . / rowMeans(.) + 1)} %>% as("dgCMatrix") %>%
@@ -46,8 +45,8 @@ rna <- rna_counts %>%
 peaks <- peak_counts / proj_all$ReadsInTSS
 
 adt <- bind_rows(
-    lane1 = read_csv(file.path(input_data_path, "CD4_lane1/ADT_counts_lane1.csv")),
-    lane2 = read_csv(file.path(input_data_path, "CD4_lane2/ADT_counts_lane2.csv")),
+    lane1 = read_csv(file.path(input_data_path, "GSM5396330_ADT_counts_lane1.csv.gz")),
+    lane2 = read_csv(file.path(input_data_path, "GSM5396334_ADT_counts_lane2.csv.gz")),
     .id = "lane"
 ) %>%
   mutate(cell_id = str_c(lane, "#", cell, "-1")) %>%
@@ -81,7 +80,7 @@ matrix_to_data_frame <- function(matrix) {
 
 
 
-top_links <- read_csv(file.path(input_data_path, "correlations/putative_targets.csv.gz"))
+top_links <- read_csv(file.path(input_data_path, "GSM5396330_putative_targets.csv.gz"))
 
 heatmaps <- list()
 shared_plot <- NULL
