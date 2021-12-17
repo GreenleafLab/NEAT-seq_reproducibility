@@ -1,0 +1,37 @@
+# Download K562 bulk ATAC data from ENCODE and convert to a 10x-compatible format
+# Ouptut data file is about 180MB large
+
+ATAC_samples = {
+    "K562_rep1": {
+        "bam": "https://www.encodeproject.org/files/ENCFF512VEZ/@@download/ENCFF512VEZ.bam"
+    },
+    "K562_rep2": {
+        "bam": "https://www.encodeproject.org/files/ENCFF987XOV/@@download/ENCFF987XOV.bam"
+    }
+}
+
+rule all:
+    input: 
+        "revisions/outputs/K562_rep1/possorted.bed.gz"
+        #"revisions/outputs/K562_rep2/possorted.bed.gz"
+
+rule download_encode_bam:
+    output: pipe("revisions/outputs/{sample}/possorted.bam")
+    params:
+        url = lambda w: ATAC_samples[w.sample]["bam"]
+    shell: "curl -L -s {params.url} > {output}"
+
+rule convert_to_bed:
+    input: rules.download_encode_bam.output
+    output: "revisions/outputs/{sample}/possorted.bed.gz"
+    params:
+        script_path = srcdir("bam_to_fragments.py"),
+        samtools_temp_dir = "/tmp/samtools_sort",
+        memory="1G"
+    threads: 4
+    shell: "samtools sort -n {input} -@ {threads} -m {params.memory} -T {params.samtools_temp_dir} -l 0 | "
+           "python {params.script_path} {wildcards.sample} | "
+           "LC_ALL=C sort -k1,1 -k2,2n -k3,3n -k4,4 -t$'\\t' -S {params.memory} --parallel={threads} | " # Sort the file by chr, start, end, then barcode_id
+           "uniq -c  | " # Filter unique lines and mark number of duplicates at start of line
+           "sed -e 's/^ *\([0-9]*\) \(.*\)$/\\2\\t\\1/' | " # Reformat uniq -c output to have count as the last column rather than first
+           "gzip --fast > {output}"

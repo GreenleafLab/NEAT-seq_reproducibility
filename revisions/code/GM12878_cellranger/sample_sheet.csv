@@ -1,0 +1,3 @@
+fastqs,sample,library_type
+/oak/stanford/groups/wjg/pierces/multi-omics/test_samples/multi_test_fastqs/multi_test_ATAC/GM12878,GM12878,Chromatin Accessibility
+/oak/stanford/groups/wjg/pierces/multi-omics/test_samples/multi_test_fastqs/multi_test_RNA,GM12878,Gene Expression
