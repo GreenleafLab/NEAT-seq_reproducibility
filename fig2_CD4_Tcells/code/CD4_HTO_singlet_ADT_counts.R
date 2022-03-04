@@ -4,8 +4,8 @@ library(tidyverse)
 
 dir.create(dirname('fig2_CD4_Tcells/outputs/TF_ADT_counts_singlets_from_NPCandHTO.csv'), showWarnings = FALSE, recursive = TRUE)
 
-HTO_lane1 <- read.csv('geo_download/HTO_counts_lane1.csv')
-HTO_lane2 <- read.csv('geo_download/HTO_counts_lane2.csv')
+HTO_lane1 <- read.csv('geo_download/GSM5396331_HTO_counts_lane1.csv.gz')
+HTO_lane2 <- read.csv('geo_download/GSM5396335_HTO_counts_lane2.csv.gz')
 
 HTO_lane1$lane <- "lane1"
 HTO_lane2$lane <- "lane2"
@@ -58,8 +58,8 @@ singlets <- filter(hashed, Hash_sum == 1)
 
 ## load ADT and titration hash oligos and find doublets based on titration hash oligos
 
-ADT_lane1 <- read.csv("geo_download/ADT_counts_lane1.csv")
-ADT_lane2 <- read.csv("geo_download/ADT_counts_lane2.csv")
+ADT_lane1 <- read.csv("geo_download/GSM5396330_ADT_counts_lane1.csv.gz")
+ADT_lane2 <- read.csv("geo_download/GSM5396334_ADT_counts_lane2.csv.gz")
 
 
 ADT_lane1$lane <- "lane1"

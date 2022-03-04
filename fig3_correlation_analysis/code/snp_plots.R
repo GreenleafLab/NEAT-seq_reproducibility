@@ -7,7 +7,7 @@ suppressPackageStartupMessages({
 
 source("fig3_correlation_analysis/code/correlation_utils.R")
 
-input_data_path <- "geo_downloads"
+input_data_path <- "geo_download"
 output_path = "fig3_correlation_analysis/outputs/"
 
 proj <- readRDS("fig2_CD4_Tcells/data/ArchR_HTOsinglets_CD4only_25XADT.rds")

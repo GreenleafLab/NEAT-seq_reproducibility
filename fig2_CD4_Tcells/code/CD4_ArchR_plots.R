@@ -7,6 +7,7 @@ suppressPackageStartupMessages({
   library(dplyr)
   library(motifmatchr)
   library(chromVARmotifs)
+  library(BSgenome.Hsapiens.UCSC.hg38)
 })
 
 set.seed(1)
@@ -16,8 +17,8 @@ addArchRGenome("hg38")
 # create ArchR project
 
 fragment_files <- c(
-  "lane1"="geo_download/lane1_atac_fragments.tsv.gz",
-  "lane2"="geo_download/lane2_atac_fragments.tsv.gz"
+  "lane1"="geo_download/GSM5396332_lane1_atac_fragments.tsv.gz",
+  "lane2"="geo_download/GSM5396336_lane2_atac_fragments.tsv.gz"
 )
 
 arrows_lane1 <- createArrowFiles(
@@ -174,7 +175,6 @@ motif_matches <- motifmatchr::matchMotifs(
   subject = getPeakSet(proj),
   genome = BSgenome.Hsapiens.UCSC.hg38
 )
-
 proj <- addDeviationsMatrix(proj, matches=motif_matches, matrixName="HeliosDeviations", threads=1)
 
 mat <- getMatrixFromProject(proj, useMatrix = "HeliosDeviations")
@@ -219,7 +219,7 @@ plotPDF(heatmapEM, name = "Motifs-Enriched-Marker-Heatmap", width = 8, height = 
 
 # Add and plot RNA
 
-RNA_counts <- readRDS("geo_download/CD4_RNA_counts.rds")
+RNA_counts <- readRDS("geo_download/GSM5396333_CD4_RNA_counts.rds")
 
 
 gene_IDs <- c(

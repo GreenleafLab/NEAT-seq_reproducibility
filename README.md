@@ -16,7 +16,12 @@ Most of the code files run in <5 minutes, but can consume substantial RAM. It is
 
 **Library Installation**
 - R: `install.packages("renv"); renv::restore()`
+    - Additional packages that are required for certian scripts:
+      `Seurat`, `immunogenomics/presto`, `limma`
 - python: `pip install pysam snakemake`
+    - Some ArchR analysis further requires `macs2`, though it may be easiest
+      to `pip install macs3` then alias `macs2` to point to `macs3`
+
 
 **Data download**
 ```shell
@@ -25,11 +30,18 @@ python code_utils/download_data.py
 
 **Figure 1**
 ```shell
-Rscript fig1_species_mixing/barnyard_analysis.R
+Rscript fig1_species_mixing/code/barnyard_analysis.R
 ```
 **Figure 2**
 ```shell
 Rscript fig2_CD4_Tcells/code/hematopoiesis_projection.R
+Rscript fig2_CD4_Tcells/code/CD4_HTO_singlet_ADT_counts.R
+Rscript fig2_CD4_Tcells/code/CD4_ArchR_plots.R # This is the slow step
+Rscript fig2_CD4_Tcells/code/ADT_normalization.R
+Rscript fig2_CD4_Tcells/code/ArchR_CD4cells_add25xADT.R
+Rscript fig2_CD4_Tcells/code/ADT_vs_RNA_correlations.R
+Rscript fig2_CD4_Tcells/code/Seurat_markers.R
+Rscript fig2_CD4_Tcells/code/Seurat_GATA3_differential_analysis.R
 ```
 **Figure3**
 ```shell

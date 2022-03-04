@@ -33,7 +33,7 @@ Code to reproduce the CD4 T cell analysis
 		- CD4_RNA_counts.rds from GEO
 	- Outputs:
 		- directory with ArchR project (ArchR_HTOsinglets_CD4only)
-		- PDFs of UMAP plots
+		- PDFs of UMAP plots (in ArchR_HTOsinglets_CD4only/Plots)
 
 - `ADT_normalization.R`: Creates tables of normalized ADT counts for the two antibody panel concentrations used (not filtered for cells passing QC)
 	- Inputs:

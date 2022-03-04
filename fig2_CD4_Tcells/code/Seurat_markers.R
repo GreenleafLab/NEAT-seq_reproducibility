@@ -8,7 +8,7 @@ library(ggplot2)
 
 set.seed(100)
 
-lane1 <- Read10X('geo_download/CD4_lane1/filtered_feature_bc_matrix/')
+lane1 <- Read10X('geo_download/GSM5396333_lane1/')
 
 
 # Create Seurat objects from each lane, then merge into one object
@@ -16,7 +16,7 @@ lane1 <- Read10X('geo_download/CD4_lane1/filtered_feature_bc_matrix/')
 lane1_obj <- CreateSeuratObject(counts = lane1$`Gene Expression`, project = "lane1_RNA")
 
 
-lane2 <- Read10X('geo_download/CD4_lane2/filtered_feature_bc_matrix/')
+lane2 <- Read10X('geo_download/GSM5396337_lane2/')
 
 lane2_obj <- CreateSeuratObject(counts = lane2$`Gene Expression`, project = "lane2_RNA")
 
@@ -25,7 +25,7 @@ combined <- merge(lane1_obj, y = lane2_obj, add.cell.ids = c("lane1", "lane2"), 
 
 # load table of all CD4 T cells from ArchR project
 
-cell_table <- read.csv("geo_download/CD4cells.csv")
+cell_table <- read.csv("geo_download/GSM5396332_CD4cells.csv.gz")
 cell_table <- tibble::rownames_to_column(cell_table, "cell_id")
 
 # Need to reformat ArchR cell IDs so that # is changed to _ to match Seurat cell IDs

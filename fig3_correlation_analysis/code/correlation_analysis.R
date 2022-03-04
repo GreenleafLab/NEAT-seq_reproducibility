@@ -36,8 +36,8 @@ rna <- rna_counts %>%
 peaks <- peak_counts / proj_all$ReadsInTSS
 
 adt <- bind_rows(
-    lane1 = read_csv(file.path(input_data_path, "GSM5396330_ADT_counts_lane1.csv")),
-    lane2 = read_csv(file.path(input_data_path, "GSM5396334_ADT_counts_lane2.csv")),
+    lane1 = read_csv(file.path(input_data_path, "GSM5396330_ADT_counts_lane1.csv.gz")),
+    lane2 = read_csv(file.path(input_data_path, "GSM5396334_ADT_counts_lane2.csv.gz")),
     .id = "lane"
 ) %>%
   mutate(cell_id = str_c(lane, "#", cell, "-1")) %>%

@@ -74,7 +74,6 @@ highRNA_lowADT_cells <- row.names(Gata3_highRNA_lowADT)
  
 
 library(MASS)
-library(viridis)
 
 # Get density of points in 2 dimensions.
 # @param x A numeric vector.
@@ -90,7 +89,7 @@ get_density <- function(x, y, ...) {
 }
 
 Gata3_dat$dens <- get_density(Gata3_dat$GATA3, Gata3_dat$'adt_GATA3-ADT', n = 100)
-p1 <- ggplot(Gata3_dat) + geom_point(aes(x = GATA3, y = `adt_GATA3-ADT`, color = dens)) + scale_color_viridis() +
+p1 <- ggplot(Gata3_dat) + geom_point(aes(x = GATA3, y = `adt_GATA3-ADT`, color = dens)) + scale_color_viridis_c() +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
   theme(aspect.ratio=1) + xlab("RNA") + ylab("ADT") +
   geom_vline(xintercept = 2.25, linetype = "dashed", size =1) +
