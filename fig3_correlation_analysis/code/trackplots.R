@@ -80,7 +80,7 @@ peak_motif_matches <-  list(
   pivot_longer(!peak_id, names_to="adt", values_to="has_motif")
 
 gene_names <- read_tsv(
-    file.path(input_data_path, "CD4_lane1/filtered_feature_bc_matrix/lane1_features.tsv.gz"),
+    file.path(input_data_path, "GSM5396333_lane1/features.tsv.gz"),
     col_names=c("gene_id", "gene_name", "feature_type", "chr", "start", "end"),
     col_types="ccccii"
   ) %>%
@@ -112,7 +112,7 @@ adt_peak_coords <- peak_motif_matches %>%
 peak_coords <- c(all_peak_coords, adt_peak_coords)
 
 
-links <- read_csv(file.path(input_data_path, "correlations/putative_targets.csv.gz"))
+links <- read_csv(file.path(input_data_path, "GSM5396330_putative_targets.csv.gz"))
 
 link_coords <- tibble(
   chr = as.vector(seqnames(gene_coords[links$gene_id])),
@@ -133,7 +133,7 @@ link_coords <- tibble(
 # 3.7GB ram in use before running this...
 gc()
 
-lane1_fragments <- fread(file.path(input_data_path, "CD4_lane1/lane1_atac_fragments.tsv.gz"), 
+lane1_fragments <- fread(file.path(input_data_path, "GSM5396332_lane1_atac_fragments.tsv.gz"), 
                        col.names=c("chr", "start", "end", "barcode", "duplicates"),
                        stringsAsFactors = TRUE) %>% lazy_dt() %>%
         mutate(cell_id = str_c("lane1#", barcode)) %>%
@@ -141,7 +141,7 @@ lane1_fragments <- fread(file.path(input_data_path, "CD4_lane1/lane1_atac_fragme
         collect() %>%
         makeGRangesFromDataFrame(keep.extra.columns=TRUE)
 
-lane2_fragments <- fread(file.path(input_data_path, "CD4_lane2/lane2_atac_fragments.tsv.gz"), 
+lane2_fragments <- fread(file.path(input_data_path, "GSM5396336_lane2_atac_fragments.tsv.gz"), 
                        col.names=c("chr", "start", "end", "barcode", "duplicates"),
                        stringsAsFactors = TRUE) %>% lazy_dt() %>%
         mutate(cell_id = str_c("lane1#", barcode)) %>%

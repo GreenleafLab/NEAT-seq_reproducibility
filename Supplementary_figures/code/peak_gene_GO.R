@@ -3,11 +3,11 @@ library(clusterProfiler)
 library(org.Hs.eg.db)
 library(AnnotationDbi)
 
-targets <- read.csv("geo_download/putative_targets.csv.gz")
+targets <- read.csv("geo_download/GSM5396330_putative_targets.csv.gz")
 
 # get background gene set - all genes with at least one read across cells
 
-all_genes <- readRDS("geo_download/CD4_RNA_counts.rds")
+all_genes <- readRDS("geo_download/GSM5396333_CD4_RNA_counts.rds")
 
 all_genes_mat <- as.matrix(all_genes)
 

@@ -12,18 +12,18 @@ ATAC_samples = {
 
 rule all:
     input: 
-        "revisions/outputs/K562_rep1/possorted.bed.gz"
-        #"revisions/outputs/K562_rep2/possorted.bed.gz"
+        "Supplementary_figures/outputs/K562_rep1/possorted.bed.gz"
+        #"Supplementary_figures/outputs/K562_rep2/possorted.bed.gz"
 
 rule download_encode_bam:
-    output: pipe("revisions/outputs/{sample}/possorted.bam")
+    output: pipe("Supplementary_figures/outputs/{sample}/possorted.bam")
     params:
         url = lambda w: ATAC_samples[w.sample]["bam"]
     shell: "curl -L -s {params.url} > {output}"
 
 rule convert_to_bed:
     input: rules.download_encode_bam.output
-    output: "revisions/outputs/{sample}/possorted.bed.gz"
+    output: "Supplementary_figures/outputs/{sample}/possorted.bed.gz"
     params:
         script_path = srcdir("bam_to_fragments.py"),
         samtools_temp_dir = "/tmp/samtools_sort",

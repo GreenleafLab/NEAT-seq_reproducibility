@@ -17,10 +17,11 @@ Most of the code files run in <5 minutes, but can consume substantial RAM. It is
 **Library Installation**
 - R: `install.packages("renv"); renv::restore()`
     - Additional packages that are required for certian scripts:
-      `Seurat`, `immunogenomics/presto`, `limma`
+      `Seurat`, `immunogenomics/presto`, `limma`, `seriation`, `org.Hs.eg.db`, `clusterProfiler` (may require `rvcheck@1.0.8` for clusterProfiler install to work)
 - python: `pip install pysam snakemake`
     - Some ArchR analysis further requires `macs2`, though it may be easiest
       to `pip install macs3` then alias `macs2` to point to `macs3`
+- other: `conda install samtools`
 
 
 **Data download**
@@ -57,9 +58,13 @@ Rscript fig3_correlation_analysis/code/heatmaps.R
 
 **Revisions**
 ```shell
-snakemake -s revisions/code/K562_bulk_ATAC/K562_download.snake
-Rscript revisions/code/bulk_correlation.R
+snakemake -c5 -s Supplementary_figures/code/K562_bulk_ATAC/K562_download.snake
+Rscript Supplementary_figures/code/bulk_correlation.R
+
+Rscript Supplementary_figures/code/ADT_normalization_tests.R
+Rscript Supplementary_figures/code/ArchR_CD4cells_add5xADT_250.R
+Rscript Supplementary_figures/code/peak_gene_GO.R
 ```
 
-## To-do checklist upon GEO publication
+## To-do checklist upon SRA publication
 [ ] Add instructions for accessing ATAC-seq bam files from SRA 

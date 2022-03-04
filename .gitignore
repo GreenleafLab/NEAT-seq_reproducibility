@@ -13,3 +13,8 @@ geo_file_mapping.csv
 .snakemake
 !/fig3_correlation_analysis/outputs/lane1_fragments.tsv
 !/fig3_correlation_analysis/outputs/lane2_fragments.tsv
+ArchRLogs
+tmp
+lane1.arrow
+lane2.arrow
+Rplots.pdf

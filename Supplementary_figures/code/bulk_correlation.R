@@ -60,7 +60,7 @@ rna_tpm <- tibble(
   mutate(across(everything(), ~ log10(1 + 1e6 * .x / sum(.x))))
 
 
-rna_GM12878 <- read_10x_gene_h5("revisions/data/GM12878_filtered_feature_bc_matrix.h5") %>%
+rna_GM12878 <- read_10x_gene_h5(file.path(input_data_path, "GSM5916384_filtered_feature_bc_matrix.h5")) %>%
   rowSums() %>%
   {1e6 *. / sum(.)}
 gm_rna_rep1 <- fread("https://www.encodeproject.org/files/ENCFF387YXX/@@download/ENCFF387YXX.tsv") %>%
@@ -134,7 +134,7 @@ cell_insertions@iranges <- fix_chr_names_hg38(cell_insertions@iranges)
 cell_insertions@cell_ids <- fix_chr_names_hg38(cell_insertions@cell_ids)
 
 K562_rep1_insertions <- insertion_from_bed(
-  "revisions/outputs/K562_rep1/possorted.bed.gz",
+  "Supplementary_figures/outputs/K562_rep1/possorted.bed.gz",
   valid_cells= "K562_rep1"
 )
 
@@ -150,7 +150,7 @@ atac_counts <- tibble(
     rowSums()
 )
 
-pdf("revisions/outputs/correlation_plots.pdf", width=5, height=5, useDingbats = FALSE)
+pdf("Supplementary_figures/outputs/correlation_plots.pdf", width=5, height=5, useDingbats = FALSE)
 
 ((p2 + labs(x="NEATseq K562")) + p4) * guides(color="none") * theme_classic() * coord_fixed() +
   patchwork::plot_annotation(title="Bulk vs. NEAT-seq RNA-seq", subtitle="K562=ENCSR000CPS, GM=ENCSR000CPO\nlog10(1 + TMP or FPKM)")

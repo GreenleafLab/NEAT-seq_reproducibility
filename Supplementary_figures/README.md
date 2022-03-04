@@ -25,3 +25,10 @@ Code to reproduce supplementary figures not generated in code from main figures
 		- CD4_RNA_counts.rds from GEO
 	- Outputs:
 		- PDF of enriched biological process terms from clusterProfiler
+
+- bulk_correlation.R: Compare NEAT-seq with bulk ATAC-seq and RNA-seq assays
+	- Inputs:
+		- K562 data from K562_download.snake
+		- GM12878 matrix GSM5916384_filtered_feature_bc_matrix.h5 from GEO
+	- Outputs:
+		- Correlation plots with comparison to bulk data

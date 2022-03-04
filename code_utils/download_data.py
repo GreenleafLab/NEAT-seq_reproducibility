@@ -34,7 +34,8 @@ data_files = [
     "GSM5396333_lane1_barcodes.tsv.gz",
     "GSM5396333_lane1_features.tsv.gz",
     "GSM5396333_lane1_matrix.mtx.gz",
-    "GSM5396332_CD4cells.csv.gz"
+    "GSM5396332_CD4cells.csv.gz",
+    "GSM5916384_filtered_feature_bc_matrix.h5"
 ]
 
 gzipped_rds = [
